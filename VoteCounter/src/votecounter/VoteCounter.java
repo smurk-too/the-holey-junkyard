@@ -22,21 +22,21 @@ public class VoteCounter extends javax.swing.JFrame {
     private static int voters = 0;
     private static final int CATEGORIES = 6;
     private static final int CANDIDATES = 4;
-    private static String house;
+    static String house;
     private final static String[] categories = {"Head Boy", "Head Girl", "Sports Prefect Boy", "Sports Prefect Girl", "House Captain", "House Vice Captain"};
     private final static String[] houseOptions = {"Jaguar", "Sher", "Puma", "Cheetah"};
-    private final static String[] headBoy = {"Arjun", "Beena", "Chhaya", "Dhruv"};
-    private final static String[] headGirl = {"Arjun", "Beena", "Chhaya", "Dhruv"};
-    private final static String[] sportsBoy = {"Arjun", "Beena", "Chhaya", "Dhruv"};
-    private final static String[] sportsGirl = {"Arjun", "Beena", "Chhaya", "Dhruv"};
+    private final static String[] headBoy = {"Anthony", "Bheem", "Cristopher", "Dhruv"};
+    private final static String[] headGirl = {"Anjali", "Beena", "Chhaya", "Dorothy"};
+    private final static String[] sportsBoy = {"Amar", "Bhairav", "Chintamani", "Dhanajay"};
+    private final static String[] sportsGirl = {"Arya", "Bakul", "Cathy", "Droupadi"};
     private final static String[][] houseCaptain = {{"Arjun", "Beena", "Chhaya", "Dhruv"},
-        {"Arjun", "Beena", "Chhaya", "Dhruv"},
-        {"Arjun", "Beena", "Chhaya", "Dhruv"},
-        {"Arjun", "Beena", "Chhaya", "Dhruv"}};
-    private final static String[][] houseViceCaptain = {{"Arjun", "Beena", "Chhaya", "Dhruv"},
-        {"Arjun", "Beena", "Chhaya", "Dhruv"},
-        {"Arjun", "Beena", "Chhaya", "Dhruv"},
-        {"Arjun", "Beena", "Chhaya", "Dhruv"}};
+        {"Purushottam", "Padma", "Pam", "Pandu"},
+        {"Sahadev", "Seema", "Sam", "Sunder"},
+        {"Rahul", "Rohini", "Reshma", "Rohan"}};
+    private final static String[][] houseViceCaptain = {{"Edmund", "Mary", "Peter", "Daniel"},
+        {"Ram", "Hari", "Vishnudas", "Digambar"},
+        {"Mohammed", "Ali", "Akbar", "Dawood"},
+        {"Antoniette", "Sylvie", "Francois", "Henry"}};
     private static String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
         houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
         houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
@@ -66,7 +66,7 @@ public class VoteCounter extends javax.swing.JFrame {
 
     private void chooseHouse() {
         house = (String) JOptionPane.showInputDialog(this, "Choose your house:", "Choose House", JOptionPane.PLAIN_MESSAGE, null, houseOptions, "Jaguar");
-        if (house != null) {
+        if ((house != null) && (house.length() > 0)) {
             voters++;
         }
     }
@@ -131,6 +131,67 @@ public class VoteCounter extends javax.swing.JFrame {
         opt1.setText(options[step][1]);
         opt2.setText(options[step][2]);
         opt3.setText(options[step][3]);
+    }
+    
+    private void vote(int choice) {
+        switch (category.getText()) {
+            case "Head Boy":
+                votes[0][choice]++;
+                break;
+            case "Head Girl":
+                votes[1][choice]++;
+                break;
+            case "Sports Prefect Boy":
+                votes[2][choice]++;
+                break;
+            case "Sports Prefect Girl":
+                votes[3][choice]++;
+                break;
+            case "House Captain":
+                switch (house) {
+                    case "Jaguar":
+                        votes[4][choice]++;
+                        break;
+                    case "Sher":
+                        votes[5][choice]++;
+                        break;
+                    case "Puma":
+                        votes[6][choice]++;
+                        break;
+                    case "Cheetah":
+                        votes[7][choice]++;
+                        break;
+                }
+                break;
+            case "House Vice Captain":
+                switch (house) {
+                    case "Jaguar":
+                        votes[8][choice]++;
+                        break;
+                    case "Sher":
+                        votes[9][choice]++;
+                        break;
+                    case "Puma":
+                        votes[10][choice]++;
+                        break;
+                    case "Cheetah":
+                        votes[11][choice]++;
+                        break;
+                }
+                break;
+        }
+
+        step++;
+        if (step == 6) {
+            JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
+            step = 0;
+            chooseHouse();
+        }
+
+        if (house != null) {
+            initOptions();
+            showOptions();
+        }
     }
 
     /**
@@ -281,255 +342,23 @@ public class VoteCounter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void opt0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt0ActionPerformed
-        // record vote
-
-        switch (category.getText()) {
-            case "Head Boy":
-                votes[0][0]++;
-                break;
-            case "Head Girl":
-                votes[1][0]++;
-                break;
-            case "Sports Prefect Boy":
-                votes[2][0]++;
-                break;
-            case "Sports Prefect Girl":
-                votes[3][0]++;
-                break;
-            case "House Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[4][0]++;
-                        break;
-                    case "Sher":
-                        votes[5][0]++;
-                        break;
-                    case "Puma":
-                        votes[6][0]++;
-                        break;
-                    case "Cheetah":
-                        votes[7][0]++;
-                        break;
-                }
-                break;
-            case "House Vice Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[8][0]++;
-                        break;
-                    case "Sher":
-                        votes[9][0]++;
-                        break;
-                    case "Puma":
-                        votes[10][0]++;
-                        break;
-                    case "Cheetah":
-                        votes[11][0]++;
-                        break;
-                }
-                break;
-        }
-
-        step++;
-        if (step == 6) {
-            JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
-            step = 0;
-            chooseHouse();
-        }
-
-        if (house != null) {
-            initOptions();
-            showOptions();
-        }
+        vote(0);
     }//GEN-LAST:event_opt0ActionPerformed
 
     private void opt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt1ActionPerformed
-        // record vote
-        switch (category.getText()) {
-            case "Head Boy":
-                votes[0][1]++;
-                break;
-            case "Head Girl":
-                votes[1][1]++;
-                break;
-            case "Sports Prefect Boy":
-                votes[2][1]++;
-                break;
-            case "Sports Prefect Girl":
-                votes[3][1]++;
-                break;
-            case "House Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[4][1]++;
-                        break;
-                    case "Sher":
-                        votes[5][1]++;
-                        break;
-                    case "Puma":
-                        votes[6][1]++;
-                        break;
-                    case "Cheetah":
-                        votes[7][1]++;
-                        break;
-                }
-                break;
-            case "House Vice Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[8][1]++;
-                        break;
-                    case "Sher":
-                        votes[9][1]++;
-                        break;
-                    case "Puma":
-                        votes[10][1]++;
-                        break;
-                    case "Cheetah":
-                        votes[11][1]++;
-                        break;
-                }
-                break;
-        }
-
-        step++;
-        if (step == 6) {
-            JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
-            step = 0;
-            chooseHouse();
-        }
-
-        if (house != null) {
-            initOptions();
-            showOptions();
-        }
+        vote(1);
     }//GEN-LAST:event_opt1ActionPerformed
 
     private void opt2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt2ActionPerformed
-        // record vote
-        switch (category.getText()) {
-            case "Head Boy":
-                votes[0][2]++;
-                break;
-            case "Head Girl":
-                votes[1][2]++;
-                break;
-            case "Sports Prefect Boy":
-                votes[2][2]++;
-                break;
-            case "Sports Prefect Girl":
-                votes[3][2]++;
-                break;
-            case "House Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[4][2]++;
-                        break;
-                    case "Sher":
-                        votes[5][2]++;
-                        break;
-                    case "Puma":
-                        votes[6][2]++;
-                        break;
-                    case "Cheetah":
-                        votes[7][2]++;
-                        break;
-                }
-                break;
-            case "House Vice Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[8][2]++;
-                        break;
-                    case "Sher":
-                        votes[9][2]++;
-                        break;
-                    case "Puma":
-                        votes[10][2]++;
-                        break;
-                    case "Cheetah":
-                        votes[11][2]++;
-                        break;
-                }
-                break;
-        }
-
-        step++;
-        if (step == 6) {
-            JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
-            step = 0;
-            chooseHouse();
-        }
-
-        if (house != null) {
-            initOptions();
-            showOptions();
-        }
+        vote(2);
     }//GEN-LAST:event_opt2ActionPerformed
 
     private void opt3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt3ActionPerformed
-        // record vote
-        switch (category.getText()) {
-            case "Head Boy":
-                votes[0][3]++;
-                break;
-            case "Head Girl":
-                votes[1][3]++;
-                break;
-            case "Sports Prefect Boy":
-                votes[2][3]++;
-                break;
-            case "Sports Prefect Girl":
-                votes[3][3]++;
-                break;
-            case "House Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[4][3]++;
-                        break;
-                    case "Sher":
-                        votes[5][3]++;
-                        break;
-                    case "Puma":
-                        votes[6][3]++;
-                        break;
-                    case "Cheetah":
-                        votes[7][3]++;
-                        break;
-                }
-                break;
-            case "House Vice Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[8][3]++;
-                        break;
-                    case "Sher":
-                        votes[9][3]++;
-                        break;
-                    case "Puma":
-                        votes[10][3]++;
-                        break;
-                    case "Cheetah":
-                        votes[11][3]++;
-                        break;
-                }
-                break;
-        }
-
-        step++;
-        if (step == 6) {
-            JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
-            step = 0;
-            chooseHouse();
-        }
-
-        if (house != null) {
-            initOptions();
-            showOptions();
-        }
+        vote(3);
     }//GEN-LAST:event_opt3ActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        showActionPerformed(evt);
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
 
