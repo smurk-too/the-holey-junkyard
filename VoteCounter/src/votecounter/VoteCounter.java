@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * votecounter package
  */
 package votecounter;
 
@@ -13,12 +12,21 @@ import java.nio.file.StandardOpenOption;
 import javax.swing.JOptionPane;
 
 /**
+ * Vote counting application.
+ *
+ * This vote counting GUI application counts votes for typical school elections.
+ * There are categories for the Head Boy/Girl, Sports Prefect Boy/Girl, and
+ * House Captain and House Vice Captain for four houses. Currently, the
+ * categories and the candidates are hard-coded, but reading them in from a file
+ * is planned for the future.
  *
  * @author shardul
  */
 public class VoteCounter extends javax.swing.JFrame {
 
+    // progress in current voting sequence
     private static int step = 0;
+    // constants for number of categories and candidates
     private static final int CATEGORIES = 6;
     private static final int CANDIDATES = 4;
     private static String house;
@@ -36,13 +44,13 @@ public class VoteCounter extends javax.swing.JFrame {
         {"Ram", "Hari", "Vishnudas", "Digambar"},
         {"Mohammed", "Ali", "Akbar", "Dawood"},
         {"Antoniette", "Sylvie", "Francois", "Henry"}};
-    private static String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
-        houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
-        houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
+    // number of votes and voters
     private static int[][] votes = new int[12][CANDIDATES];
     private static int[] voters = new int[5];
+    // options for current voting sequence
     private static String[][] options = new String[CATEGORIES][CANDIDATES];
     private static final long serialVersionUID = 1L;
+    // default results file
     private static final Path path = Paths.get("results.txt");
 
     /**
@@ -50,12 +58,41 @@ public class VoteCounter extends javax.swing.JFrame {
      */
     public VoteCounter() {
         initComponents();
+        // initialize unchanging options
+        // that is, initialize Head Boy/Girl and Sports Prefect Boy/Girl
+        for (int i = 0; i < CATEGORIES - 2; i++) {
+            for (int j = 0; j < CANDIDATES; j++) {
+                switch (i) {
+                    case 0:
+                        options[i][j] = headBoy[j];
+                        break;
+                    case 1:
+                        options[i][j] = headGirl[j];
+                        break;
+                    case 2:
+                        options[i][j] = sportsBoy[j];
+                        break;
+                    case 3:
+                        options[i][j] = sportsGirl[j];
+                        break;
+                }
+            }
+        }
         chooseHouse();
         initOptions();
         showOptions();
     }
 
-    private void writeFile (String text) {
+    /**
+     * Writes text to a file.
+     *
+     * This method writes specified text to the default results file.
+     *
+     * @param text the text to write
+     */
+    private void writeFile(String text) {
+        // open a BufferedWriter, write to the file, and closed the BufferedWriter
+        // also catch any exceptions
         try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
             bw.write(text);
             bw.newLine();
@@ -64,9 +101,15 @@ public class VoteCounter extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Opens the dialog for choosing the house.
+     */
     private void chooseHouse() {
+        // house set to user's choice
         house = (String) JOptionPane.showInputDialog(this, "Choose your house:", "Choose House", JOptionPane.PLAIN_MESSAGE, null, houseOptions, "Jaguar");
+        // if user selected an option
         if ((house != null) && (house.length() > 0)) {
+            // count total and house-wise voters
             voters[0]++;
             switch (house) {
                 case "Jaguar":
@@ -85,22 +128,18 @@ public class VoteCounter extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Initializes displayed options according to house.
+     *
+     * This method initializes the nominee options which will be displayed
+     * according to the house chosen by {@link #chooseHouse()}.
+     */
     private void initOptions() {
-        for (int i = 0; i < CATEGORIES; i++) {
+        // initialize changing options from candidates according to house
+        // that is, initialize House Captain and House Vice Captain
+        for (int i = 4; i < CATEGORIES; i++) {
             for (int j = 0; j < CANDIDATES; j++) {
                 switch (i) {
-                    case 0:
-                        options[i][j] = headBoy[j];
-                        break;
-                    case 1:
-                        options[i][j] = headGirl[j];
-                        break;
-                    case 2:
-                        options[i][j] = sportsBoy[j];
-                        break;
-                    case 3:
-                        options[i][j] = sportsGirl[j];
-                        break;
                     case 4:
                         switch (house) {
                             case "Jaguar":
@@ -135,77 +174,23 @@ public class VoteCounter extends javax.swing.JFrame {
                         break;
                 }
             }
-//            results[i] = Paths.get(categories[i].concat(".txt"));
         }
     }
 
+    /**
+     * Displays the options.
+     *
+     * This method displays the options according to the current progress in the
+     * voting sequence. The options are initialized beforehand by
+     * {@link #initOptions()}.
+     */
     private void showOptions() {
+        // display options
         category.setText(categories[step]);
         opt0.setText(options[step][0]);
         opt1.setText(options[step][1]);
         opt2.setText(options[step][2]);
         opt3.setText(options[step][3]);
-    }
-    
-    private void vote(int choice) {
-        switch (category.getText()) {
-            case "Head Boy":
-                votes[0][choice]++;
-                break;
-            case "Head Girl":
-                votes[1][choice]++;
-                break;
-            case "Sports Prefect Boy":
-                votes[2][choice]++;
-                break;
-            case "Sports Prefect Girl":
-                votes[3][choice]++;
-                break;
-            case "House Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[4][choice]++;
-                        break;
-                    case "Sher":
-                        votes[5][choice]++;
-                        break;
-                    case "Puma":
-                        votes[6][choice]++;
-                        break;
-                    case "Cheetah":
-                        votes[7][choice]++;
-                        break;
-                }
-                break;
-            case "House Vice Captain":
-                switch (house) {
-                    case "Jaguar":
-                        votes[8][choice]++;
-                        break;
-                    case "Sher":
-                        votes[9][choice]++;
-                        break;
-                    case "Puma":
-                        votes[10][choice]++;
-                        break;
-                    case "Cheetah":
-                        votes[11][choice]++;
-                        break;
-                }
-                break;
-        }
-
-        step++;
-        if (step == 6) {
-            JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
-            step = 0;
-            chooseHouse();
-        }
-
-        if (house != null) {
-            initOptions();
-            showOptions();
-        }
     }
 
     /**
@@ -224,8 +209,8 @@ public class VoteCounter extends javax.swing.JFrame {
         opt1 = new javax.swing.JButton();
         opt2 = new javax.swing.JButton();
         opt3 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
         choose = new javax.swing.JMenuItem();
         show = new javax.swing.JMenuItem();
         exit = new javax.swing.JMenuItem();
@@ -250,7 +235,7 @@ public class VoteCounter extends javax.swing.JFrame {
         opt0.setText("One");
         opt0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opt0ActionPerformed(evt);
+                vote(evt);
             }
         });
 
@@ -258,7 +243,7 @@ public class VoteCounter extends javax.swing.JFrame {
         opt1.setText("Two");
         opt1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opt1ActionPerformed(evt);
+                vote(evt);
             }
         });
 
@@ -266,7 +251,7 @@ public class VoteCounter extends javax.swing.JFrame {
         opt2.setText("Three");
         opt2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opt2ActionPerformed(evt);
+                vote(evt);
             }
         });
 
@@ -274,11 +259,11 @@ public class VoteCounter extends javax.swing.JFrame {
         opt3.setText("Four");
         opt3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opt3ActionPerformed(evt);
+                vote(evt);
             }
         });
 
-        jMenu1.setText("File");
+        fileMenu.setText("File");
 
         choose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         choose.setText("Next Voter");
@@ -287,7 +272,7 @@ public class VoteCounter extends javax.swing.JFrame {
                 chooseActionPerformed(evt);
             }
         });
-        jMenu1.add(choose);
+        fileMenu.add(choose);
 
         show.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         show.setText("Show Results");
@@ -296,7 +281,7 @@ public class VoteCounter extends javax.swing.JFrame {
                 showActionPerformed(evt);
             }
         });
-        jMenu1.add(show);
+        fileMenu.add(show);
 
         exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         exit.setText("Exit");
@@ -305,11 +290,11 @@ public class VoteCounter extends javax.swing.JFrame {
                 exitActionPerformed(evt);
             }
         });
-        jMenu1.add(exit);
+        fileMenu.add(exit);
 
-        jMenuBar1.add(jMenu1);
+        menuBar.add(fileMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -355,35 +340,41 @@ public class VoteCounter extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void opt0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt0ActionPerformed
-        vote(0);
-    }//GEN-LAST:event_opt0ActionPerformed
-
-    private void opt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt1ActionPerformed
-        vote(1);
-    }//GEN-LAST:event_opt1ActionPerformed
-
-    private void opt2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt2ActionPerformed
-        vote(2);
-    }//GEN-LAST:event_opt2ActionPerformed
-
-    private void opt3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt3ActionPerformed
-        vote(3);
-    }//GEN-LAST:event_opt3ActionPerformed
-
+    /**
+     * Exits the application.
+     *
+     * @param evt the event which generated this handler
+     */
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        // confirm and exit
         if (JOptionPane.showConfirmDialog(this, "Exit application?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_exitActionPerformed
 
+    /**
+     * Writes the results.
+     *
+     * This method writes the accumulated results into the default results file.
+     * If the method is called multiple times, the file is truncated and the new
+     * results are written.
+     *
+     * @param evt the event which generated this handler
+     */
     private void showActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showActionPerformed
+        // create and truncate file, and catch exceptions
         try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             bw.write("");
         } catch (IOException e) {
             System.err.println("Caught IOException: " + e.getMessage());
         }
-        
+
+        // all categories
+        String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
+            houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
+            houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
+
+        // write number of voters
         writeFile("Number of voters: " + voters[0]);
         writeFile("Jaguar voters: " + voters[1]);
         writeFile("Sher voters: " + voters[2]);
@@ -391,7 +382,8 @@ public class VoteCounter extends javax.swing.JFrame {
         writeFile("Cheetah voters: " + voters[4]);
         writeFile("");
         writeFile("");
-        
+
+        // write number of votes
         for (int i = 0; i < 12; i++) {
             switch (i) {
                 case 0:
@@ -439,11 +431,102 @@ public class VoteCounter extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_showActionPerformed
 
+    /**
+     * Shows the house chooser dialog.
+     *
+     * @param evt the event which generated this handler
+     */
     private void chooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseActionPerformed
         chooseHouse();
         initOptions();
         showOptions();
     }//GEN-LAST:event_chooseActionPerformed
+
+    /**
+     * Records the vote.
+     *
+     * This method is a handler for {@code ActionEvent}s generated by the
+     * buttons, and it records votes according to the option selected from the
+     * options displayed by {@link #showOptions()}. The vote is recorded in the
+     * current category, and the total voters are counted as well.
+     *
+     * @param evt the event which generated this handler
+     */
+    private void vote(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vote
+        // get source of event (which button?)
+        int choice = 0;
+        if (evt.getSource() == opt0) {
+            choice = 0;
+        } else if (evt.getSource() == opt1) {
+            choice = 1;
+        } else if (evt.getSource() == opt2) {
+            choice = 2;
+        } else if (evt.getSource() == opt3) {
+            choice = 3;
+        }
+        
+        // record vote according to category and house
+        switch (category.getText()) {
+            case "Head Boy":
+                votes[0][choice]++;
+                break;
+            case "Head Girl":
+                votes[1][choice]++;
+                break;
+            case "Sports Prefect Boy":
+                votes[2][choice]++;
+                break;
+            case "Sports Prefect Girl":
+                votes[3][choice]++;
+                break;
+            case "House Captain":
+                switch (house) {
+                    case "Jaguar":
+                        votes[4][choice]++;
+                        break;
+                    case "Sher":
+                        votes[5][choice]++;
+                        break;
+                    case "Puma":
+                        votes[6][choice]++;
+                        break;
+                    case "Cheetah":
+                        votes[7][choice]++;
+                        break;
+                }
+                break;
+            case "House Vice Captain":
+                switch (house) {
+                    case "Jaguar":
+                        votes[8][choice]++;
+                        break;
+                    case "Sher":
+                        votes[9][choice]++;
+                        break;
+                    case "Puma":
+                        votes[10][choice]++;
+                        break;
+                    case "Cheetah":
+                        votes[11][choice]++;
+                        break;
+                }
+                break;
+        }
+
+        // has voting sequence finished?
+        step++;
+        if (step == 6) {
+            JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
+            step = 0;
+            chooseHouse();
+        }
+
+        // next voter
+        if (house != null) {
+            initOptions();
+            showOptions();
+        }
+    }//GEN-LAST:event_vote
 
     /**
      * @param args the command line arguments
@@ -484,10 +567,10 @@ public class VoteCounter extends javax.swing.JFrame {
     private javax.swing.JLabel category;
     private javax.swing.JMenuItem choose;
     private javax.swing.JMenuItem exit;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JTextArea intro;
     private javax.swing.JScrollPane introPane;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton opt0;
     private javax.swing.JButton opt1;
     private javax.swing.JButton opt2;
