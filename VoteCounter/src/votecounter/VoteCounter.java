@@ -19,15 +19,14 @@ import javax.swing.JOptionPane;
 public class VoteCounter extends javax.swing.JFrame {
 
     private static int step = 0;
-    private static int voters = 0;
     private static final int CATEGORIES = 6;
     private static final int CANDIDATES = 4;
-    static String house;
+    private static String house;
     private final static String[] categories = {"Head Boy", "Head Girl", "Sports Prefect Boy", "Sports Prefect Girl", "House Captain", "House Vice Captain"};
     private final static String[] houseOptions = {"Jaguar", "Sher", "Puma", "Cheetah"};
     private final static String[] headBoy = {"Anthony", "Bheem", "Cristopher", "Dhruv"};
     private final static String[] headGirl = {"Anjali", "Beena", "Chhaya", "Dorothy"};
-    private final static String[] sportsBoy = {"Amar", "Bhairav", "Chintamani", "Dhanajay"};
+    private final static String[] sportsBoy = {"Amar", "Bhairav", "Chintamani", "Dhananjay"};
     private final static String[] sportsGirl = {"Arya", "Bakul", "Cathy", "Droupadi"};
     private final static String[][] houseCaptain = {{"Arjun", "Beena", "Chhaya", "Dhruv"},
         {"Purushottam", "Padma", "Pam", "Pandu"},
@@ -41,6 +40,7 @@ public class VoteCounter extends javax.swing.JFrame {
         houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
         houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
     private static int[][] votes = new int[12][CANDIDATES];
+    private static int[] voters = new int[5];
     private static String[][] options = new String[CATEGORIES][CANDIDATES];
     private static final long serialVersionUID = 1L;
     private static final Path path = Paths.get("results.txt");
@@ -67,7 +67,21 @@ public class VoteCounter extends javax.swing.JFrame {
     private void chooseHouse() {
         house = (String) JOptionPane.showInputDialog(this, "Choose your house:", "Choose House", JOptionPane.PLAIN_MESSAGE, null, houseOptions, "Jaguar");
         if ((house != null) && (house.length() > 0)) {
-            voters++;
+            voters[0]++;
+            switch (house) {
+                case "Jaguar":
+                    voters[1]++;
+                    break;
+                case "Sher":
+                    voters[2]++;
+                    break;
+                case "Puma":
+                    voters[3]++;
+                    break;
+                case "Cheetah":
+                    voters[4]++;
+                    break;
+            }
         }
     }
 
@@ -358,12 +372,23 @@ public class VoteCounter extends javax.swing.JFrame {
     }//GEN-LAST:event_opt3ActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-        showActionPerformed(evt);
-        System.exit(0);
+        if (JOptionPane.showConfirmDialog(this, "Exit application?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_exitActionPerformed
 
     private void showActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showActionPerformed
-        writeFile("Number of voters: " + voters);
+        try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+            bw.write("");
+        } catch (IOException e) {
+            System.err.println("Caught IOException: " + e.getMessage());
+        }
+        
+        writeFile("Number of voters: " + voters[0]);
+        writeFile("Jaguar voters: " + voters[1]);
+        writeFile("Sher voters: " + voters[2]);
+        writeFile("Puma voters: " + voters[3]);
+        writeFile("Cheetah voters: " + voters[4]);
         writeFile("");
         writeFile("");
         
