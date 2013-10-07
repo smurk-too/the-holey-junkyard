@@ -22,7 +22,7 @@ def prime(n):
 def prime_until(n):
     """Returns a list of all primes less than n."""
     nums = [2]
-    for i in range(2, n):
+    for i in range(3, n, 2):
         for j in range(2, int(ceil(sqrt(i)) + 1)):
             if i % j == 0:
                 break
