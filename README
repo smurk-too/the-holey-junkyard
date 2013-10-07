@@ -1,0 +1,26 @@
+top directory -- SVN repository, SAC Home Linux
+author: shardul
+
+This is the README file located in the top directory of the repository. The
+directory has three sub-directories, which are explained below:
+
+AVR/
+    This directory contains built AVR microcontroller C code, with
+    documentation. It is designed to work on the ATmega8 and the ATmega8535
+    microconctollers. The code demonstrates simple microcontroller operation,
+    and a few sub-directories contain specific projects.
+
+python/
+    This directory contains Python code. It includes utilities which I have
+    written in the Python language for various small purposes. There are no
+    specific projects.
+
+VoteCounter/
+    This is a Java project designed to act as a voting machine. It is under
+    development (and will remain so for quite some time as there are many things
+    to be done), but works fairly well. The project is configured to be opened
+    with either a text editor or with the NetBeans IDE.
+
+In the future, you may see more Java projects here, and I am thinking of adding
+an 'other' sub-directory for things that do not fit in properly anywhere.
+Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com>.
