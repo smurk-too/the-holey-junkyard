@@ -84,24 +84,6 @@ public class VoteCounter extends javax.swing.JFrame {
     }
 
     /**
-     * Writes text to a file.
-     *
-     * This method writes specified text to the default results file.
-     *
-     * @param text the text to write
-     */
-    private void writeFile(String text) {
-        // open a BufferedWriter, write to the file, and closed the BufferedWriter
-        // also catch any exceptions
-        try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-            bw.write(text);
-            bw.newLine();
-        } catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
-        }
-    }
-
-    /**
      * Opens the dialog for choosing the house.
      */
     private void chooseHouse() {
@@ -216,6 +198,7 @@ public class VoteCounter extends javax.swing.JFrame {
         exit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("VoteCounter");
 
         intro.setEditable(false);
         intro.setBackground(new java.awt.Color(238, 238, 238));
@@ -364,70 +347,84 @@ public class VoteCounter extends javax.swing.JFrame {
     private void showActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showActionPerformed
         // create and truncate file, and catch exceptions
         try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-            bw.write("");
+
+            // all categories
+            String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
+                houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
+                houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
+            bw.write("Number of voters: " + voters[0]);
+            bw.newLine();
+            bw.write("Jaguar voters: " + voters[1]);
+            bw.newLine();
+            bw.write("Sher voters: " + voters[2]);
+            bw.newLine();
+            bw.write("Puma voters: " + voters[3]);
+            bw.newLine();
+            bw.write("Cheetah voters: " + voters[4]);
+            bw.newLine();
+            bw.newLine();
+
+            // write number of votes
+            for (int i = 0; i < 12; i++) {                
+                switch (i) {
+                    case 0:
+                        bw.write("Head Boy:");
+                        bw.newLine();
+                        break;
+                    case 1:
+                        bw.write("Head Girl:");
+                        bw.newLine();
+                        break;
+                    case 2:
+                        bw.write("Sports Prefect Boy:");
+                        bw.newLine();
+                        break;
+                    case 3:
+                        bw.write("Sports Prefect Girl:");
+                        bw.newLine();
+                        break;
+                    case 4:
+                        bw.write("Jaguar House Captain:");
+                        bw.newLine();
+                        break;
+                    case 5:
+                        bw.write("Sher House Captain:");
+                        bw.newLine();
+                        break;
+                    case 6:
+                        bw.write("Puma House Captain:");
+                        bw.newLine();
+                        break;
+                    case 7:
+                        bw.write("Cheetah House Captain:");
+                        bw.newLine();
+                        break;
+                    case 8:
+                        bw.write("Jaguar House Vice Captain:");
+                        bw.newLine();
+                        break;
+                    case 9:
+                        bw.write("Sher House Vice Captain:");
+                        bw.newLine();
+                        break;
+                    case 10:
+                        bw.write("Puma House Vice Captain:");
+                        bw.newLine();
+                        break;
+                    case 11:
+                        bw.write("Cheetah House Vice Captain:");
+                        bw.newLine();
+                        break;
+                }
+                for (int j = 0; j < CANDIDATES; j++) {
+                    bw.write(nominees[i][j] + " -- " + votes[i][j]);
+                    bw.newLine();
+                }
+                bw.newLine();
+                bw.newLine();
+            }
         } catch (IOException e) {
             System.err.println("Caught IOException: " + e.getMessage());
-        }
-
-        // all categories
-        String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
-            houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
-            houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
-
-        // write number of voters
-        writeFile("Number of voters: " + voters[0]);
-        writeFile("Jaguar voters: " + voters[1]);
-        writeFile("Sher voters: " + voters[2]);
-        writeFile("Puma voters: " + voters[3]);
-        writeFile("Cheetah voters: " + voters[4]);
-        writeFile("");
-        writeFile("");
-
-        // write number of votes
-        for (int i = 0; i < 12; i++) {
-            switch (i) {
-                case 0:
-                    writeFile("Head Boy:");
-                    break;
-                case 1:
-                    writeFile("Head Girl:");
-                    break;
-                case 2:
-                    writeFile("Sports Prefect Boy:");
-                    break;
-                case 3:
-                    writeFile("Sports Prefect Girl:");
-                    break;
-                case 4:
-                    writeFile("Jaguar House Captain:");
-                    break;
-                case 5:
-                    writeFile("Sher House Captain:");
-                    break;
-                case 6:
-                    writeFile("Puma House Captain:");
-                    break;
-                case 7:
-                    writeFile("Cheetah House Captain:");
-                    break;
-                case 8:
-                    writeFile("Jaguar House Vice Captain:");
-                    break;
-                case 9:
-                    writeFile("Sher House Vice Captain:");
-                    break;
-                case 10:
-                    writeFile("Puma House Vice Captain:");
-                    break;
-                case 11:
-                    writeFile("Cheetah House Vice Captain:");
-                    break;
-            }
-            for (int j = 0; j < CANDIDATES; j++) {
-                writeFile(nominees[i][j] + " -- " + votes[i][j]);
-            }
-            writeFile("");
-            writeFile("");
         }
     }//GEN-LAST:event_showActionPerformed
 
@@ -464,7 +461,7 @@ public class VoteCounter extends javax.swing.JFrame {
         } else if (evt.getSource() == opt3) {
             choice = 3;
         }
-        
+
         // record vote according to category and house
         switch (category.getText()) {
             case "Head Boy":
