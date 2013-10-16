@@ -1,7 +1,7 @@
 PROJECTNAME=blink
-TARGET=atmega16
-MCU=m16
-F_CPU=1000000L
+TARGET=
+MCU=
+F_CPU=`
 
 # makefile for compiling code for AVR devices
 # converting it to Intel Hex object file
