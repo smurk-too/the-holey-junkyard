@@ -1,5 +1,5 @@
-AVR directory -- SVN repository, SAC Home Linux
-author: shardul
+AVR directory
+author: shardul, mandar
 
 This is the README file located in the AVR directory of the repository. The
 directory has six sub-directories, which are explained below --
@@ -48,5 +48,9 @@ self-explanatory, but even so, here is their usage --
  -- make clean: removes assembly and backup files
 The Makefiles need some configuring before they are used to set the correct
 microcontroller being used and the clock frequency.
+Give values accordingly to the TARGET, MCU and F_CPU variables in the Makefile
+in reference to your microcontroller. Also, fill in your source files in the FILES
+variable.
+Note: this makefile will only work for AVR microcontrollers and not for others.
 
-Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com>.
+Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com> or <mjuvekar7@gmail.com>
