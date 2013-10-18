@@ -1,53 +1,36 @@
-blinker sub-directory -- AVR direvtory, SVN repository
-author: mandar
+blinker sub-directory
+author: mandar, shardul
 
-This is the README file located in the blinker subdirectory
-of the AVR directory of the repository. It contains code for
-a very simple blinker program.
-The directory has one subdirectory and six files as eplained 
-below-- 
+This is the README file located in the blinker sub-directory of the AVR
+directory of the repository. It contains code for a very simple blinker program,
+used primarily for testing. The directory has one sub-directory and six files as
+explained below -- 
 
 Directories --
-alternate/
-	This directory contains source code and output files
-	for a simple rpogram to have two LEDs blink in an 
-	alternate fashion.
+alternate/ 
+    This directory contains source code and output files
+    for a simple rpogram to have two LEDs blink in an alternate fashion.
 
 Files --
-blink.c
-	This is the actual source code for the program. It is
-	a simple fragment of code. Please read comments in the
-	code in order to understand its working.
+blink.c 
+    This is the actual source code for the program. It is a simple fragment of 
+    code. Please read comments in the code in order to understand its working.
 
 blink.hex and blink.elf
-	These are the pre-compiled output files for the program
-	ready to be burnt on an AVR.
-	Note: these files are compiled to work with an Atmega16
-	working at 8MHz. Donot change these files unless you
-	what you are doing.
-	These files can be recompiled and burnt using the Makefile.
+    These are the pre-compiled output files for the program ready to be burnt on
+    an AVR.  Note: these files are compiled to work with an Atmega16 working at
+    8MHz. These files can be recompiled and burnt using the Makefile.
 
-blink.lst
-	This is a file showing the C code and assembly code for the
-	program side-by-side.
-	It can be used for a comparative study of both landuages.
+blink.lst 
+    This is a file showing the C code and assembly code for the program
+    side-by-side. It is not practically useful, but shows how C code is
+    translated into assembly instructions.
 
-blink.out
-	This file is needed for the compiling of the .lst file
-	(see above).
+blink.out 
+    This file is needed for the .lst file (see above).
 
-Makefile
-	This file is a useful file to compile and burn the
-	program. It is self-explanatory, yet, instructions are
-	given below--
-	Fill in the TARGET, MCU and F_CPU variables of
-	the Makefile according to your microcontroller.
-	Usage--
-	--make: compiles the code.
-	--make burn: burns all pre-compiled code on device
-	--make all: does both of the above.
-	--make show_assembly: creates .lst file to show assembly 
-			      code alongside C code.
-	--make clean: removes all created files exept source.
+Makefile 
+    See README file in AVR directory for instructions on using the Makefile.
 
-For bugs, problems and suggestions contact <mjuvekar7@gmail.com> or <shardul.chiplunkar@gmail.com>
+Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com> or
+<mjuvekar7@gmail.com> 
