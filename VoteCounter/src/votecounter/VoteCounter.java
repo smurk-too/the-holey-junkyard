@@ -3,7 +3,7 @@
  */
 package votecounter;
 
-// nescessary imports
+import java.awt.TextArea;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 /**
  * Vote counting application.
@@ -168,7 +169,6 @@ public class VoteCounter extends javax.swing.JFrame {
      * {@link #initOptions()}.
      */
     private void showOptions() {
-        // display options
         category.setText(categories[step]);
         opt0.setText(options[step][0]);
         opt1.setText(options[step][1]);
@@ -197,6 +197,14 @@ public class VoteCounter extends javax.swing.JFrame {
         choose = new javax.swing.JMenuItem();
         show = new javax.swing.JMenuItem();
         exit = new javax.swing.JMenuItem();
+        settings = new javax.swing.JMenu();
+        input = new javax.swing.JMenu();
+        xmlInput = new javax.swing.JCheckBoxMenuItem();
+        handInput = new javax.swing.JCheckBoxMenuItem();
+        output = new javax.swing.JMenu();
+        textOutput = new javax.swing.JCheckBoxMenuItem();
+        xmlOutput = new javax.swing.JCheckBoxMenuItem();
+        screenOutput = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("VoteCounter");
@@ -204,7 +212,7 @@ public class VoteCounter extends javax.swing.JFrame {
         intro.setEditable(false);
         intro.setBackground(new java.awt.Color(238, 238, 238));
         intro.setColumns(20);
-        intro.setFont(new java.awt.Font("Monospaced", 1, 16)); // NOI18N
+        intro.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
         intro.setLineWrap(true);
         intro.setRows(4);
         intro.setText("Welcome to the voting program! Click on the name you would like to vote for in the category displayed. Thank you!");
@@ -212,10 +220,10 @@ public class VoteCounter extends javax.swing.JFrame {
         intro.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         introPane.setViewportView(intro);
 
-        category.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        category.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         category.setText("Category");
 
-        opt0.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        opt0.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         opt0.setText("One");
         opt0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,7 +231,7 @@ public class VoteCounter extends javax.swing.JFrame {
             }
         });
 
-        opt1.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        opt1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         opt1.setText("Two");
         opt1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +239,7 @@ public class VoteCounter extends javax.swing.JFrame {
             }
         });
 
-        opt2.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        opt2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         opt2.setText("Three");
         opt2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,7 +247,7 @@ public class VoteCounter extends javax.swing.JFrame {
             }
         });
 
-        opt3.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        opt3.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         opt3.setText("Four");
         opt3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,6 +286,36 @@ public class VoteCounter extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
+        settings.setText("Settings");
+
+        input.setText("Input medium");
+
+        xmlInput.setSelected(true);
+        xmlInput.setText("XML file");
+        input.add(xmlInput);
+
+        handInput.setText("Enter values...");
+        input.add(handInput);
+
+        settings.add(input);
+
+        output.setText("Output medium");
+
+        textOutput.setText("Text file");
+        output.add(textOutput);
+
+        xmlOutput.setSelected(true);
+        xmlOutput.setText("XML file");
+        output.add(xmlOutput);
+
+        screenOutput.setSelected(true);
+        screenOutput.setText("On-screen");
+        output.add(screenOutput);
+
+        settings.add(output);
+
+        menuBar.add(settings);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -293,7 +331,7 @@ public class VoteCounter extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(opt0)
                     .addComponent(opt2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(opt3)
                     .addComponent(opt1))
@@ -346,86 +384,171 @@ public class VoteCounter extends javax.swing.JFrame {
      * @param evt the event which generated this handler
      */
     private void showActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showActionPerformed
-        // create and truncate file, and catch exceptions
-        try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+        // all categories
+        String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
+            houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
+            houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
 
-            // all categories
-            String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
-                houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
-                houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
-            bw.write("Number of voters: " + voters[0]);
-            bw.newLine();
-            bw.write("Jaguar voters: " + voters[1]);
-            bw.newLine();
-            bw.write("Sher voters: " + voters[2]);
-            bw.newLine();
-            bw.write("Puma voters: " + voters[3]);
-            bw.newLine();
-            bw.write("Cheetah voters: " + voters[4]);
-            bw.newLine();
-            bw.newLine();
+        if (textOutput.isSelected()) {
+            // create and truncate file, and catch exceptions
+            try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 
-            // write number of votes
-            for (int i = 0; i < 12; i++) {                
-                switch (i) {
-                    case 0:
-                        bw.write("Head Boy:");
+                bw.write("Number of voters: " + voters[0]);
+                bw.newLine();
+                bw.write("Jaguar voters: " + voters[1]);
+                bw.newLine();
+                bw.write("Sher voters: " + voters[2]);
+                bw.newLine();
+                bw.write("Puma voters: " + voters[3]);
+                bw.newLine();
+                bw.write("Cheetah voters: " + voters[4]);
+                bw.newLine();
+                bw.newLine();
+
+                // write number of votes
+                for (int i = 0; i < 12; i++) {
+                    switch (i) {
+                        case 0:
+                            bw.write("Head Boy:");
+                            bw.newLine();
+                            break;
+                        case 1:
+                            bw.write("Head Girl:");
+                            bw.newLine();
+                            break;
+                        case 2:
+                            bw.write("Sports Prefect Boy:");
+                            bw.newLine();
+                            break;
+                        case 3:
+                            bw.write("Sports Prefect Girl:");
+                            bw.newLine();
+                            break;
+                        case 4:
+                            bw.write("Jaguar House Captain:");
+                            bw.newLine();
+                            break;
+                        case 5:
+                            bw.write("Sher House Captain:");
+                            bw.newLine();
+                            break;
+                        case 6:
+                            bw.write("Puma House Captain:");
+                            bw.newLine();
+                            break;
+                        case 7:
+                            bw.write("Cheetah House Captain:");
+                            bw.newLine();
+                            break;
+                        case 8:
+                            bw.write("Jaguar House Vice Captain:");
+                            bw.newLine();
+                            break;
+                        case 9:
+                            bw.write("Sher House Vice Captain:");
+                            bw.newLine();
+                            break;
+                        case 10:
+                            bw.write("Puma House Vice Captain:");
+                            bw.newLine();
+                            break;
+                        case 11:
+                            bw.write("Cheetah House Vice Captain:");
+                            bw.newLine();
+                            break;
+                    }
+                    for (int j = 0; j < CANDIDATES; j++) {
+                        bw.write(nominees[i][j] + " -- " + votes[i][j]);
                         bw.newLine();
-                        break;
-                    case 1:
-                        bw.write("Head Girl:");
-                        bw.newLine();
-                        break;
-                    case 2:
-                        bw.write("Sports Prefect Boy:");
-                        bw.newLine();
-                        break;
-                    case 3:
-                        bw.write("Sports Prefect Girl:");
-                        bw.newLine();
-                        break;
-                    case 4:
-                        bw.write("Jaguar House Captain:");
-                        bw.newLine();
-                        break;
-                    case 5:
-                        bw.write("Sher House Captain:");
-                        bw.newLine();
-                        break;
-                    case 6:
-                        bw.write("Puma House Captain:");
-                        bw.newLine();
-                        break;
-                    case 7:
-                        bw.write("Cheetah House Captain:");
-                        bw.newLine();
-                        break;
-                    case 8:
-                        bw.write("Jaguar House Vice Captain:");
-                        bw.newLine();
-                        break;
-                    case 9:
-                        bw.write("Sher House Vice Captain:");
-                        bw.newLine();
-                        break;
-                    case 10:
-                        bw.write("Puma House Vice Captain:");
-                        bw.newLine();
-                        break;
-                    case 11:
-                        bw.write("Cheetah House Vice Captain:");
-                        bw.newLine();
-                        break;
-                }
-                for (int j = 0; j < CANDIDATES; j++) {
-                    bw.write(nominees[i][j] + " -- " + votes[i][j]);
+                    }
+                    bw.newLine();
                     bw.newLine();
                 }
-                bw.newLine();
-                bw.newLine();
+            } catch (IOException e) {
+                System.err.println("Caught IOException: " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.err.println("Caught IOException: " + e.getMessage());
+        }
+        if (xmlOutput.isSelected()) {
+            // TODO: write output XML file
+        }
+        if (screenOutput.isSelected()) {
+            java.awt.TextArea resultsText = new TextArea();
+            javax.swing.JScrollPane resultsPane = new JScrollPane(resultsText);
+            javax.swing.JDialog resultsDialog = new javax.swing.JDialog();
+
+            resultsDialog.setTitle("Results");
+            resultsText.setColumns(80);
+            resultsText.setRows(200);
+            resultsPane.setViewportView(resultsText);
+
+            javax.swing.GroupLayout resultsDialogLayout = new javax.swing.GroupLayout(resultsDialog.getContentPane());
+            resultsDialog.getContentPane().setLayout(resultsDialogLayout);
+            resultsDialogLayout.setHorizontalGroup(
+                    resultsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(resultsDialogLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(resultsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addContainerGap()));
+            resultsDialogLayout.setVerticalGroup(
+                    resultsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(resultsDialogLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(resultsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                    .addContainerGap()));
+
+            StringBuilder results = new StringBuilder("Results of the voting process:\n");
+            results.append("\nNumber of voters: ").append(voters[0]);
+            results.append("\nNumber of Jaguar voters: ").append(voters[1]);
+            results.append("\nNumber of Sher voters: ").append(voters[2]);
+            results.append("\nNumber of Puma voters: ").append(voters[3]);
+            results.append("\nNumber of Cheetah voters: ").append(voters[4]);
+            
+            for (int i = 0; i < 12; i++) {
+                    switch (i) {
+                        case 0:
+                            results.append("\n\nHead Boy:\n");
+                            break;
+                        case 1:
+                            results.append("\n\nHead Girl:\n");
+                            break;
+                        case 2:
+                            results.append("\n\nSports Prefect Boy:\n");
+                            break;
+                        case 3:
+                            results.append("\n\nSports Prefect Girl:\n");
+                            break;
+                        case 4:
+                            results.append("\n\nJaguar House Captain:\n");
+                            break;
+                        case 5:
+                            results.append("\n\nSher House Captain:\n");
+                            break;
+                        case 6:
+                            results.append("\n\nPuma House Captain:\n");
+                            break;
+                        case 7:
+                            results.append("\n\nCheetah House Captain:\n");
+                            break;
+                        case 8:
+                            results.append("\n\nJaguar House Vice Captain:\n");
+                            break;
+                        case 9:
+                            results.append("\n\nSher House Vice Captain:\n");
+                            break;
+                        case 10:
+                            results.append("\n\nPuma House Vice Captain:\n");
+                            break;
+                        case 11:
+                            results.append("\n\nCheetah House Vice Captain:\n");
+                            break;
+                    }
+                    for (int j = 0; j < CANDIDATES; j++) {
+                        results.append(nominees[i][j]).append(" -- ").append(votes[i][j]).append("\n");
+                    } 
+                }
+            
+            resultsText.setText(results.toString());
+            resultsDialog.setVisible(true);
         }
     }//GEN-LAST:event_showActionPerformed
 
@@ -542,18 +665,12 @@ public class VoteCounter extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VoteCounter.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VoteCounter.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VoteCounter.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VoteCounter.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            System.err.println(ex.getLocalizedMessage());
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        // Create and display the form
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -566,6 +683,8 @@ public class VoteCounter extends javax.swing.JFrame {
     private javax.swing.JMenuItem choose;
     private javax.swing.JMenuItem exit;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JCheckBoxMenuItem handInput;
+    private javax.swing.JMenu input;
     private javax.swing.JTextArea intro;
     private javax.swing.JScrollPane introPane;
     private javax.swing.JMenuBar menuBar;
@@ -573,6 +692,12 @@ public class VoteCounter extends javax.swing.JFrame {
     private javax.swing.JButton opt1;
     private javax.swing.JButton opt2;
     private javax.swing.JButton opt3;
+    private javax.swing.JMenu output;
+    private javax.swing.JCheckBoxMenuItem screenOutput;
+    private javax.swing.JMenu settings;
     private javax.swing.JMenuItem show;
+    private javax.swing.JCheckBoxMenuItem textOutput;
+    private javax.swing.JCheckBoxMenuItem xmlInput;
+    private javax.swing.JCheckBoxMenuItem xmlOutput;
     // End of variables declaration//GEN-END:variables
 }
