@@ -7,7 +7,7 @@ directory has three sub-directories, which are explained below:
 AVR/
     This directory contains built AVR microcontroller C code, with
     documentation. It is designed to work on the ATmega8 and the ATmega8535
-    microconctollers. The code demonstrates simple microcontroller operation,
+    microcontrollers. The code demonstrates simple microcontroller operation,
     and a few sub-directories contain specific projects.
 
 python/
