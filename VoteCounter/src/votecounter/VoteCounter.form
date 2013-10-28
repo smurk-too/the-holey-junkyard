@@ -44,53 +44,23 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="settings">
+        <Menu class="javax.swing.JMenu" name="output">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Settings"/>
+            <Property name="text" type="java.lang.String" value="Output..."/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="input">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="textOutput">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Input medium"/>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Text file"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="xmlInput">
-                  <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
-                    <Property name="text" type="java.lang.String" value="XML file"/>
-                  </Properties>
-                </MenuItem>
-                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="handInput">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Enter values..."/>
-                  </Properties>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
-            <Menu class="javax.swing.JMenu" name="output">
+            </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="screenOutput">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Output medium"/>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="On-screen"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="textOutput">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Text file"/>
-                  </Properties>
-                </MenuItem>
-                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="xmlOutput">
-                  <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
-                    <Property name="text" type="java.lang.String" value="XML file"/>
-                  </Properties>
-                </MenuItem>
-                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="screenOutput">
-                  <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
-                    <Property name="text" type="java.lang.String" value="On-screen"/>
-                  </Properties>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
+            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>

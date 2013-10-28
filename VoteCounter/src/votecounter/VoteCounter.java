@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import org.jdom2.JDOMException;
 
 /**
  * Vote counting application.
@@ -176,6 +177,38 @@ public class VoteCounter extends javax.swing.JFrame {
         opt3.setText(options[step][3]);
     }
 
+    public static void readXMLInput(String path) {
+        try {
+            votecounter.InputParser.parse((new InputParser()).getClass().getResourceAsStream(path));
+        } catch (JDOMException | IOException ex) {
+            System.err.println(ex);
+        }
+        System.out.println(votecounter.InputParser.getGroups());
+        System.out.println(votecounter.InputParser.getGenericPosts());
+        System.out.println(votecounter.InputParser.getNonGenericPosts());
+        System.out.println();
+        String[][] genericNominees = votecounter.InputParser.getGenericNominees();
+        for (int i = 0; i < genericNominees.length; i++) {
+            System.out.println(votecounter.InputParser.getGenericPosts().get(i) + " -- ");
+            for (int j = 0; j < genericNominees[i].length; j++) {
+                System.out.println(genericNominees[i][j]);
+            }
+            System.out.println();
+        }
+        String[][][] nonGenericNominees = votecounter.InputParser.getNonGenericNominees();
+        for (int i = 0; i < nonGenericNominees.length; i++) {
+            System.out.println(votecounter.InputParser.getNonGenericPosts().get(i) + " -- ");
+            for (int j = 0; j < nonGenericNominees[i].length; j++) {
+                if (nonGenericNominees[i][j] != null) {
+                    for (int k = 0; k < nonGenericNominees[i][j].length; k++) {
+                        System.out.println(nonGenericNominees[i][j][k]);
+                    }
+                }
+            }
+            System.out.println();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -197,13 +230,8 @@ public class VoteCounter extends javax.swing.JFrame {
         choose = new javax.swing.JMenuItem();
         show = new javax.swing.JMenuItem();
         exit = new javax.swing.JMenuItem();
-        settings = new javax.swing.JMenu();
-        input = new javax.swing.JMenu();
-        xmlInput = new javax.swing.JCheckBoxMenuItem();
-        handInput = new javax.swing.JCheckBoxMenuItem();
         output = new javax.swing.JMenu();
         textOutput = new javax.swing.JCheckBoxMenuItem();
-        xmlOutput = new javax.swing.JCheckBoxMenuItem();
         screenOutput = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -286,35 +314,17 @@ public class VoteCounter extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
-        settings.setText("Settings");
+        output.setText("Output...");
 
-        input.setText("Input medium");
-
-        xmlInput.setSelected(true);
-        xmlInput.setText("XML file");
-        input.add(xmlInput);
-
-        handInput.setText("Enter values...");
-        input.add(handInput);
-
-        settings.add(input);
-
-        output.setText("Output medium");
-
+        textOutput.setSelected(true);
         textOutput.setText("Text file");
         output.add(textOutput);
-
-        xmlOutput.setSelected(true);
-        xmlOutput.setText("XML file");
-        output.add(xmlOutput);
 
         screenOutput.setSelected(true);
         screenOutput.setText("On-screen");
         output.add(screenOutput);
 
-        settings.add(output);
-
-        menuBar.add(settings);
+        menuBar.add(output);
 
         setJMenuBar(menuBar);
 
@@ -468,9 +478,7 @@ public class VoteCounter extends javax.swing.JFrame {
                 System.err.println("Caught IOException: " + e.getMessage());
             }
         }
-        if (xmlOutput.isSelected()) {
-            // TODO: write output XML file
-        }
+
         if (screenOutput.isSelected()) {
             java.awt.TextArea resultsText = new TextArea();
             javax.swing.JScrollPane resultsPane = new JScrollPane(resultsText);
@@ -502,51 +510,51 @@ public class VoteCounter extends javax.swing.JFrame {
             results.append("\nNumber of Sher voters: ").append(voters[2]);
             results.append("\nNumber of Puma voters: ").append(voters[3]);
             results.append("\nNumber of Cheetah voters: ").append(voters[4]);
-            
+
             for (int i = 0; i < 12; i++) {
-                    switch (i) {
-                        case 0:
-                            results.append("\n\nHead Boy:\n");
-                            break;
-                        case 1:
-                            results.append("\n\nHead Girl:\n");
-                            break;
-                        case 2:
-                            results.append("\n\nSports Prefect Boy:\n");
-                            break;
-                        case 3:
-                            results.append("\n\nSports Prefect Girl:\n");
-                            break;
-                        case 4:
-                            results.append("\n\nJaguar House Captain:\n");
-                            break;
-                        case 5:
-                            results.append("\n\nSher House Captain:\n");
-                            break;
-                        case 6:
-                            results.append("\n\nPuma House Captain:\n");
-                            break;
-                        case 7:
-                            results.append("\n\nCheetah House Captain:\n");
-                            break;
-                        case 8:
-                            results.append("\n\nJaguar House Vice Captain:\n");
-                            break;
-                        case 9:
-                            results.append("\n\nSher House Vice Captain:\n");
-                            break;
-                        case 10:
-                            results.append("\n\nPuma House Vice Captain:\n");
-                            break;
-                        case 11:
-                            results.append("\n\nCheetah House Vice Captain:\n");
-                            break;
-                    }
-                    for (int j = 0; j < CANDIDATES; j++) {
-                        results.append(nominees[i][j]).append(" -- ").append(votes[i][j]).append("\n");
-                    } 
+                switch (i) {
+                    case 0:
+                        results.append("\n\nHead Boy:\n");
+                        break;
+                    case 1:
+                        results.append("\n\nHead Girl:\n");
+                        break;
+                    case 2:
+                        results.append("\n\nSports Prefect Boy:\n");
+                        break;
+                    case 3:
+                        results.append("\n\nSports Prefect Girl:\n");
+                        break;
+                    case 4:
+                        results.append("\n\nJaguar House Captain:\n");
+                        break;
+                    case 5:
+                        results.append("\n\nSher House Captain:\n");
+                        break;
+                    case 6:
+                        results.append("\n\nPuma House Captain:\n");
+                        break;
+                    case 7:
+                        results.append("\n\nCheetah House Captain:\n");
+                        break;
+                    case 8:
+                        results.append("\n\nJaguar House Vice Captain:\n");
+                        break;
+                    case 9:
+                        results.append("\n\nSher House Vice Captain:\n");
+                        break;
+                    case 10:
+                        results.append("\n\nPuma House Vice Captain:\n");
+                        break;
+                    case 11:
+                        results.append("\n\nCheetah House Vice Captain:\n");
+                        break;
                 }
-            
+                for (int j = 0; j < CANDIDATES; j++) {
+                    results.append(nominees[i][j]).append(" -- ").append(votes[i][j]).append("\n");
+                }
+            }
+
             resultsText.setText(results.toString());
             resultsDialog.setVisible(true);
         }
@@ -677,14 +685,13 @@ public class VoteCounter extends javax.swing.JFrame {
                 new VoteCounter().setVisible(true);
             }
         });
+        readXMLInput("/school.xml");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel category;
     private javax.swing.JMenuItem choose;
     private javax.swing.JMenuItem exit;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JCheckBoxMenuItem handInput;
-    private javax.swing.JMenu input;
     private javax.swing.JTextArea intro;
     private javax.swing.JScrollPane introPane;
     private javax.swing.JMenuBar menuBar;
@@ -694,10 +701,7 @@ public class VoteCounter extends javax.swing.JFrame {
     private javax.swing.JButton opt3;
     private javax.swing.JMenu output;
     private javax.swing.JCheckBoxMenuItem screenOutput;
-    private javax.swing.JMenu settings;
     private javax.swing.JMenuItem show;
     private javax.swing.JCheckBoxMenuItem textOutput;
-    private javax.swing.JCheckBoxMenuItem xmlInput;
-    private javax.swing.JCheckBoxMenuItem xmlOutput;
     // End of variables declaration//GEN-END:variables
 }
