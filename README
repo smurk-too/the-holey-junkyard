@@ -21,7 +21,10 @@ VoteCounter/
     to be done), but works fairly well. The project is configured to be opened
     with either a text editor or with the NetBeans IDE.
 
-In the future, you may see more Java projects here, and I am thinking of adding
-an 'other' sub-directory for things that do not fit in properly anywhere.
+other/
+    Oddball directory containing very random stuff. Includes misc. bash scripts,
+    3D models, videos, songs, scribble files, etc.
+
+In the future, you may see more projects here, as we do more stuff.
 Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com> or
 <mjuvekar7@gmail.com>.

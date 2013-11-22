@@ -3,16 +3,8 @@
  */
 package votecounter;
 
-import java.awt.TextArea;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import org.jdom2.JDOMException;
 
 /**
  * Vote counting application.
@@ -54,7 +46,7 @@ public class VoteCounter extends javax.swing.JFrame {
     private static String[][] options = new String[CATEGORIES][CANDIDATES];
     private static final long serialVersionUID = 1L;
     // default results file
-    private static final Path path = Paths.get("results.txt");
+    private static final java.nio.file.Path path = java.nio.file.Paths.get("results.txt");
 
     /**
      * Creates new form VoteCounter
@@ -177,10 +169,18 @@ public class VoteCounter extends javax.swing.JFrame {
         opt3.setText(options[step][3]);
     }
 
+    /**
+     * Read XML input file.
+     *
+     * Right now, we are not doing anything with the data other than printing it
+     * out to standard output.
+     *
+     * @param path the XML input file
+     */
     public static void readXMLInput(String path) {
         try {
             votecounter.InputParser.parse((new InputParser()).getClass().getResourceAsStream(path));
-        } catch (JDOMException | IOException ex) {
+        } catch (org.jdom2.JDOMException | java.io.IOException ex) {
             System.err.println(ex);
         }
         System.out.println(votecounter.InputParser.getGroups());
@@ -218,38 +218,24 @@ public class VoteCounter extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        introPane = new javax.swing.JScrollPane();
-        intro = new javax.swing.JTextArea();
         category = new javax.swing.JLabel();
         opt0 = new javax.swing.JButton();
         opt1 = new javax.swing.JButton();
         opt2 = new javax.swing.JButton();
         opt3 = new javax.swing.JButton();
+        num = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         choose = new javax.swing.JMenuItem();
         show = new javax.swing.JMenuItem();
         exit = new javax.swing.JMenuItem();
-        output = new javax.swing.JMenu();
-        textOutput = new javax.swing.JCheckBoxMenuItem();
-        screenOutput = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("VoteCounter");
 
-        intro.setEditable(false);
-        intro.setBackground(new java.awt.Color(238, 238, 238));
-        intro.setColumns(20);
-        intro.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
-        intro.setLineWrap(true);
-        intro.setRows(4);
-        intro.setText("Welcome to the voting program! Click on the name you would like to vote for in the category displayed. Thank you!");
-        intro.setWrapStyleWord(true);
-        intro.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        introPane.setViewportView(intro);
-
         category.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         category.setText("Category");
+        category.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         opt0.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         opt0.setText("One");
@@ -283,6 +269,8 @@ public class VoteCounter extends javax.swing.JFrame {
             }
         });
 
+        num.setText("Voter #1");
+
         fileMenu.setText("File");
 
         choose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
@@ -314,18 +302,6 @@ public class VoteCounter extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
-        output.setText("Output...");
-
-        textOutput.setSelected(true);
-        textOutput.setText("Text file");
-        output.add(textOutput);
-
-        screenOutput.setSelected(true);
-        screenOutput.setText("On-screen");
-        output.add(screenOutput);
-
-        menuBar.add(output);
-
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -333,31 +309,32 @@ public class VoteCounter extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(introPane)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(opt0)
                     .addComponent(opt2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(opt3)
                     .addComponent(opt1))
                 .addGap(57, 57, 57))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(category)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(160, Short.MAX_VALUE)
+                .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addComponent(num)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(introPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(category)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(num)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(opt0)
@@ -366,7 +343,7 @@ public class VoteCounter extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(opt2)
                     .addComponent(opt3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -379,6 +356,7 @@ public class VoteCounter extends javax.swing.JFrame {
      */
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // confirm and exit
+        showActionPerformed(evt);
         if (JOptionPane.showConfirmDialog(this, "Exit application?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -398,166 +376,83 @@ public class VoteCounter extends javax.swing.JFrame {
         String[][] nominees = {headBoy, headGirl, sportsBoy, sportsGirl,
             houseCaptain[0], houseCaptain[1], houseCaptain[2], houseCaptain[3],
             houseViceCaptain[0], houseViceCaptain[1], houseViceCaptain[2], houseViceCaptain[3]};
+        try (java.io.BufferedWriter bw = java.nio.file.Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 
-        if (textOutput.isSelected()) {
-            // create and truncate file, and catch exceptions
-            try (BufferedWriter bw = Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+            bw.write("Number of voters: " + voters[0]);
+            bw.newLine();
+            bw.write("Jaguar voters: " + voters[1]);
+            bw.newLine();
+            bw.write("Sher voters: " + voters[2]);
+            bw.newLine();
+            bw.write("Puma voters: " + voters[3]);
+            bw.newLine();
+            bw.write("Cheetah voters: " + voters[4]);
+            bw.newLine();
+            bw.newLine();
 
-                bw.write("Number of voters: " + voters[0]);
-                bw.newLine();
-                bw.write("Jaguar voters: " + voters[1]);
-                bw.newLine();
-                bw.write("Sher voters: " + voters[2]);
-                bw.newLine();
-                bw.write("Puma voters: " + voters[3]);
-                bw.newLine();
-                bw.write("Cheetah voters: " + voters[4]);
-                bw.newLine();
-                bw.newLine();
-
-                // write number of votes
-                for (int i = 0; i < 12; i++) {
-                    switch (i) {
-                        case 0:
-                            bw.write("Head Boy:");
-                            bw.newLine();
-                            break;
-                        case 1:
-                            bw.write("Head Girl:");
-                            bw.newLine();
-                            break;
-                        case 2:
-                            bw.write("Sports Prefect Boy:");
-                            bw.newLine();
-                            break;
-                        case 3:
-                            bw.write("Sports Prefect Girl:");
-                            bw.newLine();
-                            break;
-                        case 4:
-                            bw.write("Jaguar House Captain:");
-                            bw.newLine();
-                            break;
-                        case 5:
-                            bw.write("Sher House Captain:");
-                            bw.newLine();
-                            break;
-                        case 6:
-                            bw.write("Puma House Captain:");
-                            bw.newLine();
-                            break;
-                        case 7:
-                            bw.write("Cheetah House Captain:");
-                            bw.newLine();
-                            break;
-                        case 8:
-                            bw.write("Jaguar House Vice Captain:");
-                            bw.newLine();
-                            break;
-                        case 9:
-                            bw.write("Sher House Vice Captain:");
-                            bw.newLine();
-                            break;
-                        case 10:
-                            bw.write("Puma House Vice Captain:");
-                            bw.newLine();
-                            break;
-                        case 11:
-                            bw.write("Cheetah House Vice Captain:");
-                            bw.newLine();
-                            break;
-                    }
-                    for (int j = 0; j < CANDIDATES; j++) {
-                        bw.write(nominees[i][j] + " -- " + votes[i][j]);
-                        bw.newLine();
-                    }
-                    bw.newLine();
-                    bw.newLine();
-                }
-            } catch (IOException e) {
-                System.err.println("Caught IOException: " + e.getMessage());
-            }
-        }
-
-        if (screenOutput.isSelected()) {
-            java.awt.TextArea resultsText = new TextArea();
-            javax.swing.JScrollPane resultsPane = new JScrollPane(resultsText);
-            javax.swing.JDialog resultsDialog = new javax.swing.JDialog();
-
-            resultsDialog.setTitle("Results");
-            resultsText.setColumns(80);
-            resultsText.setRows(200);
-            resultsPane.setViewportView(resultsText);
-
-            javax.swing.GroupLayout resultsDialogLayout = new javax.swing.GroupLayout(resultsDialog.getContentPane());
-            resultsDialog.getContentPane().setLayout(resultsDialogLayout);
-            resultsDialogLayout.setHorizontalGroup(
-                    resultsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(resultsDialogLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(resultsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .addContainerGap()));
-            resultsDialogLayout.setVerticalGroup(
-                    resultsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(resultsDialogLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(resultsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                    .addContainerGap()));
-
-            StringBuilder results = new StringBuilder("Results of the voting process:\n");
-            results.append("\nNumber of voters: ").append(voters[0]);
-            results.append("\nNumber of Jaguar voters: ").append(voters[1]);
-            results.append("\nNumber of Sher voters: ").append(voters[2]);
-            results.append("\nNumber of Puma voters: ").append(voters[3]);
-            results.append("\nNumber of Cheetah voters: ").append(voters[4]);
-
+            // write number of votes
             for (int i = 0; i < 12; i++) {
                 switch (i) {
                     case 0:
-                        results.append("\n\nHead Boy:\n");
+                        bw.write("Head Boy:");
+                        bw.newLine();
                         break;
                     case 1:
-                        results.append("\n\nHead Girl:\n");
+                        bw.write("Head Girl:");
+                        bw.newLine();
                         break;
                     case 2:
-                        results.append("\n\nSports Prefect Boy:\n");
+                        bw.write("Sports Prefect Boy:");
+                        bw.newLine();
                         break;
                     case 3:
-                        results.append("\n\nSports Prefect Girl:\n");
+                        bw.write("Sports Prefect Girl:");
+                        bw.newLine();
                         break;
                     case 4:
-                        results.append("\n\nJaguar House Captain:\n");
+                        bw.write("Jaguar House Captain:");
+                        bw.newLine();
                         break;
                     case 5:
-                        results.append("\n\nSher House Captain:\n");
+                        bw.write("Sher House Captain:");
+                        bw.newLine();
                         break;
                     case 6:
-                        results.append("\n\nPuma House Captain:\n");
+                        bw.write("Puma House Captain:");
+                        bw.newLine();
                         break;
                     case 7:
-                        results.append("\n\nCheetah House Captain:\n");
+                        bw.write("Cheetah House Captain:");
+                        bw.newLine();
                         break;
                     case 8:
-                        results.append("\n\nJaguar House Vice Captain:\n");
+                        bw.write("Jaguar House Vice Captain:");
+                        bw.newLine();
                         break;
                     case 9:
-                        results.append("\n\nSher House Vice Captain:\n");
+                        bw.write("Sher House Vice Captain:");
+                        bw.newLine();
                         break;
                     case 10:
-                        results.append("\n\nPuma House Vice Captain:\n");
+                        bw.write("Puma House Vice Captain:");
+                        bw.newLine();
                         break;
                     case 11:
-                        results.append("\n\nCheetah House Vice Captain:\n");
+                        bw.write("Cheetah House Vice Captain:");
+                        bw.newLine();
                         break;
                 }
                 for (int j = 0; j < CANDIDATES; j++) {
-                    results.append(nominees[i][j]).append(" -- ").append(votes[i][j]).append("\n");
+                    bw.write(nominees[i][j] + " -- " + votes[i][j]);
+                    bw.newLine();
                 }
+                bw.newLine();
+                bw.newLine();
             }
-
-            resultsText.setText(results.toString());
-            resultsDialog.setVisible(true);
+        } catch (java.io.IOException e) {
+            System.err.println("Caught IOException: " + e.getMessage());
         }
+
     }//GEN-LAST:event_showActionPerformed
 
     /**
@@ -646,8 +541,10 @@ public class VoteCounter extends javax.swing.JFrame {
         step++;
         if (step == 6) {
             JOptionPane.showMessageDialog(this, "Thank You! Your votes have been recorded.", "Exit", JOptionPane.INFORMATION_MESSAGE);
+            showActionPerformed(evt);
             step = 0;
             chooseHouse();
+            num.setText("Voter #" + voters[0]);
         }
 
         // next voter
@@ -685,23 +582,19 @@ public class VoteCounter extends javax.swing.JFrame {
                 new VoteCounter().setVisible(true);
             }
         });
-        readXMLInput("/school.xml");
+//        readXMLInput("/school.xml");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel category;
     private javax.swing.JMenuItem choose;
     private javax.swing.JMenuItem exit;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JTextArea intro;
-    private javax.swing.JScrollPane introPane;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JLabel num;
     private javax.swing.JButton opt0;
     private javax.swing.JButton opt1;
     private javax.swing.JButton opt2;
     private javax.swing.JButton opt3;
-    private javax.swing.JMenu output;
-    private javax.swing.JCheckBoxMenuItem screenOutput;
     private javax.swing.JMenuItem show;
-    private javax.swing.JCheckBoxMenuItem textOutput;
     // End of variables declaration//GEN-END:variables
 }
