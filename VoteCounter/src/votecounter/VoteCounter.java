@@ -1,9 +1,32 @@
-/*
- * votecounter package
+/**
+ * VoteCounter.java: main vote-counting application
+ * Copyright (C) 2012, 2013 Shardul C.
+ *
+ * This file is part of VoteCounter.
+ *
+ * VoteCounter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * VoteCounter is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with VoteCounter.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com>
+ * or <mjuvekar7@gmail.com>.
  */
 package votecounter;
 
+import java.io.IOException;
 import java.nio.file.StandardOpenOption;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -229,6 +252,9 @@ public class VoteCounter extends javax.swing.JFrame {
         choose = new javax.swing.JMenuItem();
         show = new javax.swing.JMenuItem();
         exit = new javax.swing.JMenuItem();
+        sep = new javax.swing.JPopupMenu.Separator();
+        license = new javax.swing.JMenuItem();
+        about = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("VoteCounter");
@@ -299,6 +325,23 @@ public class VoteCounter extends javax.swing.JFrame {
             }
         });
         fileMenu.add(exit);
+        fileMenu.add(sep);
+
+        license.setText("License");
+        license.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                licenseActionPerformed(evt);
+            }
+        });
+        fileMenu.add(license);
+
+        about.setText("About");
+        about.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutActionPerformed(evt);
+            }
+        });
+        fileMenu.add(about);
 
         menuBar.add(fileMenu);
 
@@ -334,7 +377,7 @@ public class VoteCounter extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(category, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(opt0)
@@ -554,6 +597,39 @@ public class VoteCounter extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_vote
 
+    private void aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutActionPerformed
+        JDialog aboutDialog = new JDialog(this, "About VoteCounter");
+        String msg = "<html><pre>   VoteCounter: Java vote counting application    <br />        Copyright (C) 2012, 2013 Shardul C.       <br /><br />"
+                + "       Bugs, tips, suggestions, requests to       <br />&lt;shardul.chiplunkar@gmail.com&gt; or &lt;mjuvekar7@gmail.com&gt;.</pre></html>";
+        JLabel lbl = new JLabel(msg);
+        lbl.setIcon(new ImageIcon("resources/gpl-v3-logo-black.jpg", "GPLv3 logo"));
+        lbl.setVisible(true);
+        aboutDialog.add(lbl);
+        aboutDialog.setSize(300, 100);
+        aboutDialog.setVisible(true);
+    }//GEN-LAST:event_aboutActionPerformed
+
+    private void licenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_licenseActionPerformed
+        JDialog licenseDialog = new JDialog(this, "VoteCounter GPL License");
+        java.io.File file = new java.io.File("COPYING");
+        String txt = null;
+        try (java.io.BufferedInputStream stream = new java.io.BufferedInputStream(new java.io.FileInputStream(file))) {
+            byte[] data;
+            data = new byte[(int) file.length()];
+            stream.read(data);
+            txt = new String(data, "UTF-8");
+        } catch (IOException ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
+        JLabel licenseLabel = new JLabel("<html><body style='width: 450px'><pre>"+txt+"</pre></body></html>");
+        javax.swing.JScrollPane scroller = new javax.swing.JScrollPane(licenseLabel, javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        licenseLabel.setVisible(true);
+        scroller.setVisible(true);
+        licenseDialog.add(scroller);
+        licenseDialog.setSize(600, 800);
+        licenseDialog.setVisible(true);
+    }//GEN-LAST:event_licenseActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -582,19 +658,22 @@ public class VoteCounter extends javax.swing.JFrame {
                 new VoteCounter().setVisible(true);
             }
         });
-//        readXMLInput("/school.xml");
+//        readXMLInput("resources/school.xml");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem about;
     private javax.swing.JLabel category;
     private javax.swing.JMenuItem choose;
     private javax.swing.JMenuItem exit;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem license;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel num;
     private javax.swing.JButton opt0;
     private javax.swing.JButton opt1;
     private javax.swing.JButton opt2;
     private javax.swing.JButton opt3;
+    private javax.swing.JPopupMenu.Separator sep;
     private javax.swing.JMenuItem show;
     // End of variables declaration//GEN-END:variables
 }
