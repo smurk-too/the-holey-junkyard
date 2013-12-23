@@ -3,8 +3,8 @@ author: mandar, shardul
 
 This is the README file located in the blinker sub-directory of the AVR
 directory of the repository. It contains code for a very simple blinker program,
-used primarily for testing. The directory has one sub-directory and six files as
-explained below -- 
+used primarily for testing. The directory has one sub-directory and seven files
+as explained below:
 
 Directories --
 alternate/ 
@@ -31,6 +31,9 @@ blink.out
 
 Makefile 
     See README file in AVR directory for instructions on using the Makefile.
+
+README
+    This file.
 
 Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com> or
 <mjuvekar7@gmail.com> 

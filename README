@@ -1,9 +1,10 @@
-top directory, SVN repository
+top directory
 author: shardul
 
 This is the README file located in the top directory of the repository. The
-directory has three sub-directories, which are explained below:
+directory has four sub-directories and one file, which are explained below:
 
+Directories --
 AVR/
     This directory contains built AVR microcontroller C code, with
     documentation. It is designed to work on the ATmega8 and the ATmega8535
@@ -24,6 +25,10 @@ VoteCounter/
 other/
     Oddball directory containing very random stuff. Includes misc. bash scripts,
     3D models, videos, songs, scribble files, etc.
+
+Files --
+README
+    This file.
 
 In the future, you may see more projects here, as we do more stuff.
 Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com> or

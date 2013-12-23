@@ -1,8 +1,9 @@
-python directory -- SVN repository, SAC Home Linux
+python directory
 author: shardul
 
 This is the README file located in the python directory of the SVN repository.
-The directory has no sub-directries. Its contents are explained below --
+The directory has five files and no sub-directries. Its contents are explained
+below:
 
 fib.py
     A Python utility for Fibonacci numbers, which can give you the first n
@@ -26,4 +27,8 @@ prime_time.py
     multiplied and the result is then factorized, measuring the timetaken to
     factorize it.
 
-Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com>.
+README
+    This file.
+
+Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com> or
+<mjuvekar7@gmail.com>. 
