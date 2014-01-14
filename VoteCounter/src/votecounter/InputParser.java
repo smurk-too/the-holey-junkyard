@@ -76,7 +76,7 @@ public class InputParser {
      * The three dimensional array is of the form
      * {@code String[posts][contesting groups][nominees for each group in each post]}.
      *
-     * @return
+     * @return array of non-generic nominees
      */
     public static String[][][] getNonGenericNominees() {
         return nonGenericNominees;

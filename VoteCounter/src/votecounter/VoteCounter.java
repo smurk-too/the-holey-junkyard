@@ -1,21 +1,21 @@
 /**
- * VoteCounter.java: main vote-counting application
- * Copyright (C) 2012, 2013 Shardul C.
+ * VoteCounter.java: main vote-counting application Copyright (C) 2012, 2013
+ * Shardul C.
  *
  * This file is part of VoteCounter.
  *
- * VoteCounter is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * VoteCounter is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  *
- * VoteCounter is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * VoteCounter is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with VoteCounter.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * VoteCounter. If not, see <http://www.gnu.org/licenses/>.
  *
  * Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com>
  * or <mjuvekar7@gmail.com>.
@@ -597,6 +597,14 @@ public class VoteCounter extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_vote
 
+    /**
+     * Shows an 'About' dialog box.
+     * 
+     * The dialog shown includes the author and copyright and an email address
+     * for bug reporting or suggestions.
+     * 
+     * @param evt the event which generated this handler
+     */
     private void aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutActionPerformed
         JDialog aboutDialog = new JDialog(this, "About VoteCounter");
         String msg = "<html><pre>   VoteCounter: Java vote counting application    <br />        Copyright (C) 2012, 2013 Shardul C.       <br /><br />"
@@ -605,13 +613,18 @@ public class VoteCounter extends javax.swing.JFrame {
         lbl.setIcon(new ImageIcon("resources/gpl-v3-logo-black.jpg", "GPLv3 logo"));
         lbl.setVisible(true);
         aboutDialog.add(lbl);
-        aboutDialog.setSize(300, 100);
+        aboutDialog.setSize(400, 150);
         aboutDialog.setVisible(true);
     }//GEN-LAST:event_aboutActionPerformed
 
+    /**
+     * Shows the license.
+     * 
+     * @param evt the event which generated this handler
+     */
     private void licenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_licenseActionPerformed
         JDialog licenseDialog = new JDialog(this, "VoteCounter GPL License");
-        java.io.File file = new java.io.File("COPYING");
+        java.io.File file = new java.io.File("resources/COPYING");
         String txt = null;
         try (java.io.BufferedInputStream stream = new java.io.BufferedInputStream(new java.io.FileInputStream(file))) {
             byte[] data;
@@ -621,7 +634,7 @@ public class VoteCounter extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.err.println(ex.getLocalizedMessage());
         }
-        JLabel licenseLabel = new JLabel("<html><body style='width: 450px'><pre>"+txt+"</pre></body></html>");
+        JLabel licenseLabel = new JLabel("<html><body style='width: 450px'><pre>" + txt + "</pre></body></html>");
         javax.swing.JScrollPane scroller = new javax.swing.JScrollPane(licenseLabel, javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         licenseLabel.setVisible(true);
         scroller.setVisible(true);
