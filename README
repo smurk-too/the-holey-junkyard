@@ -1,35 +1,42 @@
-top directory
+VoteCounter directory
 author: shardul
 
-This is the README file located in the top directory of the repository. The
-directory has four sub-directories and one file, which are explained below:
+This is the README file in the VoteCounter directory of the repository. It has
+four sub-directories and four files, each explained below:
 
 Directories --
-AVR/
-    This directory contains built AVR microcontroller C code, with
-    documentation. It is designed to work on the ATmega8 and the ATmega8535
-    microcontrollers. The code demonstrates simple microcontroller operation,
-    and a few sub-directories contain specific projects.
+build/
+    This sub-directory contains compiled sources (as '*.class' files). It also
+    contains NetBeans build configuration data. This sub-directory is not meant
+    to be tampered with directly; there is no README file.
 
-python/
-    This directory contains Python code. It includes utilities which I have
-    written in the Python language for various small purposes. There are no
-    specific projects.
+dist/
+    This sub-directory contains the built jarchive for the project, along with
+    library dependancies.
 
-VoteCounter/
-    This is a Java project designed to act as a voting machine. It is under
-    development (and will remain so for quite some time as there are many things
-    to be done), but works fairly well. The project is configured to be opened
-    with either a text editor or with the NetBeans IDE.
+nbproject/
+    This sub-directory contains NetBeans project configuration data. This sub-
+    directory is not meant to be tampered with directly; there is no README
+    file.
 
-other/
-    Oddball directory containing very random stuff. Includes misc. bash scripts,
-    3D models, videos, songs, scribble files, etc.
+src/
+    This sub-directory contains the sources for the project (Java source files
+    -- '*.java' -- and other resource files). They are well-commented and self-
+    explanatory, so there is no README file.
 
 Files --
+build.xml
+    This contains NetBeans build configuration.
+
+COPYING
+    This contains the GPL copyleft declaration for VoteCounter. This file is
+    actually a link to src/votecounter/COPYING.
+
+manifest.mf
+    This is the NetBeans project Manifest file.
+
 README
     This file.
 
-In the future, you may see more projects here, as we do more stuff.
 Bugs, tips, suggestions, requests to <shardul.chiplunkar@gmail.com> or
 <mjuvekar7@gmail.com>.
