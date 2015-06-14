@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<input>
+    <groups>
+        <groupname>Sher</groupname>
+        <groupname>Jaguar</groupname>
+        <groupname>Puma</groupname>
+        <groupname>Cheetah</groupname>
+    </groups>
+    <posts>
+        <generic>
+            <post name="Head Boy">
+                <nominee>Ayush Tiwary</nominee>
+                <nominee>Aayush Mokate</nominee>
+                <nominee>Aniket Bhawe</nominee>
+                <nominee>Ronak Jain</nominee>
+            </post>
+            <post name="Head Girl">
+                <nominee>Janhavi Pawar</nominee>
+                <nominee>Tanvi Sharma</nominee>
+                <nominee>Saumya Oberoi</nominee>
+                <nominee>Antara Kulkarni</nominee>
+            </post>
+            <post name="Sports Prefect Girl">
+                <nominee>Devaki Menon</nominee>
+                <nominee>Janhavi Pawar</nominee>
+                <nominee>Tanvi Sharma</nominee>
+                <nominee>Akshita Bafna</nominee>
+            </post>
+            <post name="Sports Prefect Boy">
+                <nominee>Vedant Malkarnekar</nominee>
+                <nominee>Aayush Mokate</nominee>
+                <nominee>Karan Bhavnani</nominee>
+                <nominee>Anuj Joglekar</nominee>
+            </post>
+        </generic>
+        <nongeneric>
+            <post name="House Captain">
+                <group name="Sher">
+                    <nominee>Anushka Desai</nominee>
+                    <nominee>Anuj Joglekar</nominee>
+                    <nominee>Vidhi Jain</nominee>
+                    <nominee>Dhruv Menon</nominee>
+                </group>
+                <group name="Jaguar">
+                    <nominee>Ayush Tiwary</nominee>
+                    <nominee>Anushka Gosavi</nominee>
+                    <nominee>Shardul Chiplunkar</nominee>
+                    <nominee>Tanvie Kirane</nominee>
+                </group>
+                <group name="Puma">
+                    <nominee>Dhruv Bukinkere</nominee>
+                    <nominee>Aniket Bhawe</nominee>
+                    <nominee>Poorvi Garag</nominee>
+                    <nominee>Ronak Jain</nominee>
+                </group>
+                <group name="Cheetah">
+                    <nominee>Khushii Bola</nominee>
+                    <nominee>Vedant Malkarnekar</nominee>
+                    <nominee>Virendra Nair</nominee>
+                    <nominee>Shreya Agarwal</nominee>
+                </group>
+            </post>
+            <post name="House Vice Captain">
+                <group name="Sher">
+                    <nominee>Diya Arul</nominee>
+                    <nominee>Aarushi Bajaj</nominee>
+                    <nominee>Prithvi Punjabi</nominee>
+                    <nominee>Anuj Shah</nominee>
+                </group>
+                <group name="Jaguar">
+                    <nominee>Nikhita Gaonkar</nominee>
+                    <nominee>Avishkar Raut</nominee>
+                    <nominee>Mihir Patki</nominee>
+                    <nominee>Rohil Nataraj</nominee>
+                </group>
+                <group name="Puma">
+                    <nominee>Yashika Kriplani</nominee>
+                    <nominee>Sanmit Patil</nominee>
+                    <nominee>Hirvansh Keswani</nominee>
+                    <nominee>Raghav Navandar</nominee>
+                </group>
+                <group name="Cheetah">
+                    <nominee>Anjali Jhunja</nominee>
+                    <nominee>Sejal Bangale</nominee>
+                    <nominee>Raunal Gulati</nominee>
+                    <nominee>Uday Nair</nominee>
+                </group>
+            </post>
+        </nongeneric>
+    </posts>
+</input>

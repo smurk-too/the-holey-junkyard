@@ -1,6 +1,6 @@
 /*
  * VoteServer.java: vote-counting server
- * Copyright (C) 2012 - 2014 Shardul C.
+ * Copyright (C) 2012 - 2015 Shardul C.
  *
  * This file is part of VoteCounter.
  *
@@ -67,7 +67,7 @@ public class VoteServer {
      * @param args the command-line arguments: <input.xml> and <output.txt>
      */
     public static void main(String args[]) {
-        System.out.println("VoteCounter Copyright (C) 2012 - 2014 Shardul C.");
+        System.out.println("VoteCounter Copyright (C) 2012 - 2015 Shardul C.");
         System.out.println("This program comes with ABSOLUTELY NO WARRANTY. " +
                 "This is free software, and you are welcome to redistribute " +
                 "it under certain conditions; see the COPYING file for more " +
@@ -89,9 +89,10 @@ public class VoteServer {
             nonGenericNominees = Collections.synchronizedList(parser.getNonGenericNominees());
             votes = new int[genericPosts.size() + nonGenericPosts.size()*groups.size()][NOMINEES];
             voters = new int[groups.size() + 1];
+            int count = 0;
             while (true) {
-                new voteserver.VoteServerThread(sock.accept()).start();
-                System.out.println("client started");
+                new voteserver.VoteServerThread(sock.accept(), ++count).start();
+                System.out.println("client #" + count + " started");
             }
         } catch (java.io.IOException ex) {
             System.err.println("Caught IOException: " + ex.getLocalizedMessage());

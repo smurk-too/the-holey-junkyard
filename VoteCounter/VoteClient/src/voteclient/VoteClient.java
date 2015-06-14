@@ -1,6 +1,6 @@
 /*
  * VoteClient.java: voting client
- * Copyright (C) 2012 - 2014 Shardul C.
+ * Copyright (C) 2012 - 2015 Shardul C.
  *
  * This file is part of VoteCounter.
  *
@@ -25,7 +25,10 @@ import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import messages.Messages;
 
 /**
@@ -50,7 +53,7 @@ public class VoteClient extends javax.swing.JFrame {
     // options for each voter
     private List<List<String>> opts = new ArrayList<>();
     // voter number
-    private static int voterNum = 0;
+    private static int voterNumber = 0;
     // serial version UID for serialization
     private static final long serialVersionUID = 1L;
 
@@ -58,11 +61,14 @@ public class VoteClient extends javax.swing.JFrame {
     static List<String> groups;
     static List<String> genericPosts;
     static List<String> nonGenericPosts;
+    static List<List<String>> genericNominees;
+    static List<List<List<String>>> nonGenericNominees;
 
     // current chosen group
     static String group;
     // current position in voting sequence
     static int step;
+    static int clientNumber;
 
     // input and output to/from server
     private static java.io.ObjectInputStream in;
@@ -91,17 +97,31 @@ public class VoteClient extends javax.swing.JFrame {
             // wait for message
             in.readObject();
             // select group
-            group = (String) JOptionPane.showInputDialog(this, "Voter #" + (voterNum + 1) + ": Choose your house:",
-                    "Choose House", JOptionPane.PLAIN_MESSAGE, null, groups.toArray(), "");
+            JPanel pnl = new JPanel();
+            pnl.add(new JLabel("Voter #" + (voterNumber + 1) + ": Choose your house:"));
+            JComboBox jcb = new JComboBox(groups.toArray());
+            pnl.add(jcb);
+            String[] oks = {"OK", "Exit"};
+            int opt = JOptionPane.showOptionDialog(this, pnl, "Choose House", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, oks, "OK");
+            // group = (String) JOptionPane.showInputDialog(this, "Voter #" + (voterNum + 1) + ": Choose your house:",
+            //        "Choose House", JOptionPane.PLAIN_MESSAGE, null, groups.toArray(), "");
+            group = (String) jcb.getSelectedItem();
             // voter hit cancel
-            if (group == null) {
+            if (opt == JOptionPane.NO_OPTION) {
                 exitActionPerformed(null);
             }
-            voterNum++;
+            voterNumber++;
             // if-else to test msg cut out because
             // server only sends one message anyway
             out.writeObject(group);
-            opts = (List<List<String>>) in.readObject();
+            opts.clear();
+            for (int i = 0; i < genericPosts.size(); i++) {
+                opts.add(genericNominees.get(i));
+            }
+            for (int i = 0; i < nonGenericPosts.size(); i++) {
+                opts.add(nonGenericNominees.get(i).get(groups.indexOf(group)));
+            }
+            // opts = (List<List<String>>) in.readObject();
             // start individual voting process
             voterStart();
         } catch (IOException ex) {
@@ -119,7 +139,7 @@ public class VoteClient extends javax.swing.JFrame {
      */
     private void voterStart() {
         // set the proper heading
-        num.setText("Voter #" + voterNum);
+        num.setText("Voter #" + voterNumber + ", Client #" + clientNumber);
         if (step < genericPosts.size()) {
             category.setText(genericPosts.get(step));
         } else {
@@ -309,16 +329,16 @@ public class VoteClient extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // confirm, send goodbye, and exit
-        if (JOptionPane.showConfirmDialog(this, "Exit application?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-            try {
-                out.writeObject(Messages.GOODBYE);
-                in.close();
-                out.close();
-            } catch (IOException ex) {
-                System.err.println("Caught IOException: " + ex.getLocalizedMessage());
-            }
-            System.exit(0);
+        // if (JOptionPane.showConfirmDialog(this, "Exit application?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+        try {
+            out.writeObject(Messages.GOODBYE);
+            in.close();
+            out.close();
+        } catch (IOException ex) {
+            System.err.println("Caught IOException: " + ex.getLocalizedMessage());
         }
+        System.exit(0);
+        // }
     }//GEN-LAST:event_exitActionPerformed
 
     private void licenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_licenseActionPerformed
@@ -349,8 +369,8 @@ public class VoteClient extends javax.swing.JFrame {
     private void aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutActionPerformed
         // thank you, thank you! <bow to audience>
         javax.swing.JDialog aboutDialog = new javax.swing.JDialog(this, "About VoteCounter");
-        String msg = "<html><center>VoteCounter: Java vote counting application<br />Copyright (C) 2012 - 2014 Shardul C.<br /><br />"
-        + "Bugs, tips, suggestions, requests to<br />&lt;shardul.chiplunkar@gmail.com&gt.</center></html>";
+        String msg = "<html><center>VoteCounter: Java vote counting application<br />Copyright (C) 2012 - 2015 Shardul C.<br /><br />"
+        + "Bugs, tips, suggestions, requests to<br />&lt;shardul.chiplunkar@gmail.com&gt;</center></html>";
         javax.swing.JLabel lbl = new javax.swing.JLabel(msg);
         lbl.setIcon(new javax.swing.ImageIcon(VoteClient.class.getResource("/resources/gpl-v3-logo.png")));
         lbl.setVisible(true);
@@ -370,7 +390,7 @@ public class VoteClient extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     public static void main(String args[]) {
-        System.out.println("VoteCounter Copyright (C) 2012 - 2014 Shardul C.");
+        System.out.println("VoteCounter Copyright (C) 2012 - 2015 Shardul C.");
         System.out.println("This program comes with ABSOLUTELY NO WARRANTY. " +
                 "This is free software, and you are welcome to redistribute " +
                 "it under certain conditions; click 'License' under the " +
@@ -387,6 +407,9 @@ public class VoteClient extends javax.swing.JFrame {
             groups = (List<String>) in.readObject();
             genericPosts = (List<String>) in.readObject();
             nonGenericPosts = (List<String>) in.readObject();
+            genericNominees = (List<List<String>>) in.readObject();
+            nonGenericNominees = (List<List<List<String>>>) in.readObject();
+            clientNumber = in.readInt();
         } catch (IOException ex) {
             System.err.println("Caught IOException: " + ex.getLocalizedMessage());
             System.exit(-2);
