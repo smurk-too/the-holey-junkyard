@@ -1,6 +1,6 @@
 /*
  * VoteServerThread.java: vote-counting server thread
- * Copyright (C) 2012 - 2014 Shardul C.
+ * Copyright (C) 2012 - 2015 Shardul C.
  *
  * This file is part of VoteCounter.
  *
@@ -40,6 +40,7 @@ public class VoteServerThread extends Thread {
     // input and output to/from client
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private int clientNumber;
 
     /**
      * Construct a new {@code VoteServerThread} connected to the client.
@@ -50,7 +51,7 @@ public class VoteServerThread extends Thread {
      *
      * @param sock a {@code Socket} to the client
      */
-    public VoteServerThread(Socket sock) {
+    public VoteServerThread(Socket sock, int clientNumber) {
         super("VoteServerThread");
         try {
             // create i/o streams
@@ -61,6 +62,7 @@ public class VoteServerThread extends Thread {
             System.err.println("Caught IOException: " + ex.getLocalizedMessage());
             System.exit(-2);
         }
+        this.clientNumber = clientNumber;
     }
 
     @Override
@@ -70,6 +72,9 @@ public class VoteServerThread extends Thread {
             out.writeObject(VoteServer.groups);
             out.writeObject(VoteServer.genericPosts);
             out.writeObject(VoteServer.nonGenericPosts);
+            out.writeObject(VoteServer.genericNominees);
+            out.writeObject(VoteServer.nonGenericNominees);
+            out.writeInt(clientNumber);
             int genSize = VoteServer.genericPosts.size();
             int nonGenSize = VoteServer.nonGenericPosts.size();
 
@@ -80,11 +85,6 @@ public class VoteServerThread extends Thread {
             // current voter's options
             List<List<String>> options = new ArrayList<>();
 
-            // initialize the non-changing part of the voter's options (the generic parts)
-            for (int i = 0; i < genSize; i++) {
-                options.add(VoteServer.genericNominees.get(i));
-            }
-
             while (true) {
                 out.reset();
                 // what group?
@@ -93,8 +93,13 @@ public class VoteServerThread extends Thread {
 
                 // client terminated
                 if (group.equals(messages.Messages.GOODBYE.toString())) {
-                    System.out.println("client terminated");
+                    System.out.println("client #" + clientNumber + " terminated");
                     break;
+                }
+
+                // initialize the non-changing part of the voter's options (the generic parts)
+                for (int i = 0; i < genSize; i++) {
+                    options.add(VoteServer.genericNominees.get(i));
                 }
 
                 int groupIndex = VoteServer.groups.indexOf(group);
@@ -106,7 +111,7 @@ public class VoteServerThread extends Thread {
                     options.add(VoteServer.nonGenericNominees.get(i).get(groupIndex));
                 }
                 // send options
-                out.writeObject(options);
+                // out.writeObject(options);
 
                 // get votes
                 for (int step = 0; step < options.size(); step++) {
@@ -118,8 +123,7 @@ public class VoteServerThread extends Thread {
                     }
                 }
                 VoteServer.writeVotes();
-                options.remove(genSize + nonGenSize - 1);
-                options.remove(genSize + nonGenSize - 2);
+                options.clear();
             }
             VoteServer.writeVotes();
             in.close();
